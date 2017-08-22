@@ -1,8 +1,17 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-io.set('transports', [ 'websocket' ]);
 var port = process.env.PORT || 3000;
+
+//ENABLE CROSS DOMAIN
+io.set('transports', [ 'websocket' ]);
+
+//ENABLE CORS
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
